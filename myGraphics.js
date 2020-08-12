@@ -128,6 +128,13 @@ function fillTriangle(x1, y1, x2, y2, x3, y3, style = {}) {
     ctx.restore();
 }
 
+function text(text, x, y, style){
+    ctx.save();
+    setStyle(style);
+    ctx.strokeText(text,x,y,maxWidth);
+    ctx.restore();
+}
+
 function background(color) {
     ctx.save();
     ctx.beginPath();
