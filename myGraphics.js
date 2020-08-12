@@ -24,7 +24,9 @@ function setup() {
 }
 
 function setStyle(style){
-    keys = Object.keys(style);
+    const stylekeys = Object.keys(style);
+    const ctxKeys = Object.keys(Object.getPrototypeOf(ctx));
+    const keys = stylekeys.filter(e=>{return ctxKeys.indexOf(e)>-1;});
     for(key of keys){
         ctx[key] = style[key];
     }
@@ -128,10 +130,15 @@ function fillTriangle(x1, y1, x2, y2, x3, y3, style = {}) {
     ctx.restore();
 }
 
-function text(text, x, y, style){
+function text(text, x, y, style = {}){
     ctx.save();
     setStyle(style);
-    ctx.strokeText(text,x,y,maxWidth);
+    if(style.maxWidth){
+        ctx.strokeText(text,x,y,style.maxWidth);
+    }
+    else{
+        ctx.strokeText(text,x,y);
+    }
     ctx.restore();
 }
 
