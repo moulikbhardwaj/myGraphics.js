@@ -2,6 +2,6 @@ setup();
 
 draw = (delta)=>{
     background("#333333FF");
-    fillEllipse(width/2, height/2+50, 10, 20, {color:"#CCCF"})
-    line(width/2,height/2,width/2,height/2+40,{color:"#AAAF"});
+    setStyle({strokeStyle:'white', lineCap:"round", lineWidth:10, strokeStyle:"white"})
+    line(100,100,300,300);
 }
