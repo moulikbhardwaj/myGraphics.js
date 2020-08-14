@@ -12,13 +12,12 @@
         this.width = canvas.width;
         this.height = canvas.height;
         var Framerate = 60;
-        const globalStyle = {};
-        var color = "rgba(0,0,0,1)";
-        var lineWidth = 1;
 
         var cachedData = {};
         var animationFrame = 0;
         var lastFrame, startTime;
+        var lastDraw;
+        var looper = true;
 
         this.setup = () => {
             ctx.clearRect(0, 0, width, height);
@@ -186,12 +185,16 @@
         this.doLoop = () => {
             startTime = window.performance.now();
             lastFrame = window.performance.now();
+            lastDraw = window.performance.now();
+            looper = true;
             animationFrame = requestAnimationFrame(loop);
         }
 
         this.noLoop = () => {
             cancelAnimationFrame(animationFrame);
             lastFrame = undefined;
+            lastDraw = undefined;
+            looper = false;
             startTime = undefined;
             animationFrame = undefined;
         }
@@ -206,10 +209,15 @@
             }
             else{
                 const curFrame = time-startTime;
-                draw(curFrame-lastFrame);
+                if((curFrame-lastDraw)/(curFrame-lastFrame) >= 60/Framerate){
+                    draw(curFrame-lastDraw);
+                    lastDraw = curFrame;
+                }
                 lastFrame=curFrame;
             }
-            animationFrame = requestAnimationFrame(loop);
+            if(looper){
+                animationFrame = requestAnimationFrame(loop);
+            }
         }
         
         this.framerate = (fps) => {
