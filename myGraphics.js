@@ -19,6 +19,8 @@
         var lastDraw;
         var looper = true;
 
+        const keyMap = {};
+
         this.setup = () => {
             ctx.clearRect(0, 0, width, height);
             strokeRect(0, 0, width - 1, height - 1);
@@ -219,7 +221,16 @@
                 animationFrame = requestAnimationFrame(loop);
             }
         }
+        this.addEventListener("keydown", e => keyMap[e.keyCode] = true);
+        this.addEventListener("keyup", e => keyMap[e.keyCode] = false);
         
+        this.keyPressed = (key)=>{
+            return keyMap[key];
+        }
+
+        this.addCanvasEventListener = (eventType, listener, options)=>{
+            canvas.addEventListener(eventType, listener, options);
+        }
         this.framerate = (fps) => {
             Framerate = fps;
         }
